@@ -1,0 +1,30 @@
+{% extends '../base.html' %}
+{% load static %}
+{% block title %}Main page{% endblock %}
+
+{% block content %}
+    <section id="main" class="section is-medium">
+        <div class="container">
+            {% if messages %}
+            <div style="width: 50%; margin: 0 auto;" class="notification is-link is-light has-text-centered">
+              <button class="delete"></button>
+              {% for message in messages %}
+                {{ message }}
+              {% endfor %}
+            </div>
+            {% endif %}
+            <div class="columns">
+                <div class="column is-6">
+                    <div id="content">
+                        <h1 class="title" id="title">Welcome to <span class="has-text-link">course.io</span></h1>
+                        <p class="subtitle" id="subtitle"><strong class="has-text-link">course.io</strong> it is a platform of free video courses with various directions such as: programming, computer networks, computer graphics and much more. To get access to the courses, please register and log in to the platform.</p>
+                        <a href="{% url 'courseList' %}" class="button is-link"><i class="fas fa-list-ul"></i>&nbsp;Course list</a>
+                    </div>
+                </div>
+                <div class="column is-6">
+                    <img src="{% static 'img/main.svg' %}" alt="Main">
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends '../base.html' %}
+{% load static %}
+{% block title %}{{course}}{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+    <div id="theme-list">
+        <div class="container">
+            <h1 class="title has-text-centered" id="title">Playlist <span class="has-text-link">[ {{course}} ]</span></h1>
+            <table class="table is-fullwidth is-hoverable is-bordered is-striped" style="margin-bottom: 40px;">
+                <thead>
+                    <th>№</th>
+                    <th>Lesson name</th>
+                    <th>Actions</th>
+                </thead>
+                <tbody>
+                    {% for theme in themes %}
+                    <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td>{{ theme.themeName }}</td>
+                        <td><a href="{{ theme.pk }}" class="button is-link is-fullwidth">Watch&nbsp;<i class="fas fa-play"></i></a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% else %}
+<section class="section is-medium">
+    <div class="mt-6 mb-6 notification is-danger has-text-centered is-light" style="width: 50%; margin: 0 auto;">
+    <button class="delete"></button>
+    To work with the platform, please <a href="{% url 'logIn' %}">log in</a><br>
+    If you don't have an account, <a href="{% url 'signUp' %}">register</a> and log in
+</div>
+</section>
+{% endif %}
+{% endblock %}

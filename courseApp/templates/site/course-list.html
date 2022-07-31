@@ -1,0 +1,76 @@
+{% extends '../base.html' %}
+{% load static %}
+{% block title %}Course list{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<div id="course-list">
+        <div class="container">
+            <h1 class="title has-text-centered" id="title">All courses <span class="has-text-link">{{ category.categoryName }}</span></h1>
+
+            <div class="columns is-desktop">
+                <div class="column is-3">
+                    <div class="card mb-4">
+                        <div class="card-content">
+                            <h2 class="title is-5">Search course</h2>
+                            <form action="{% url 'courseList' %}">
+                                <div class="columns">
+                                    <div class="column is-9">
+                                        <input name="search" class="input is-link" type="text" placeholder="Course name">
+                                    </div>
+                                    <div class="column is-1">
+                                        <button class="button is-link" type="submit"><i class="fas fa-search"></i></button>
+                                    </div>
+                                </div>
+
+
+                            </form>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-content">
+                            <h2 class="title is-5">Filter by category</h2>
+                            <ul style="margin-bottom: 20px;">
+                                <li><a href="{% url 'courseList' %}">All</a></li>
+                                {% for category in categories %}
+                                    <li><a href="{{ category.get_absolute_url }}">{{ category.categoryName }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="column is-9">
+                    {% for course in courses %}
+                    <div class="card" style="margin-bottom: 40px;">
+                        <div class="card-content">
+                            <div class="columns">
+                                <div class="column is-4">
+                                    <img src="{{ course.courseCover.url }}" alt="{{ course.courseName }}">
+                                </div>
+                                <div class="column is-8">
+                                    <h3 class="title is-4 has-text-link">{{ course.courseName }}</h3>
+                                    <p>Category: <span class="tag is-link"><a href="{{ course.category.slug }}" class="has-text-white" style="text-transform: lowercase;">#{{ course.category.slug }}</a></span></p>
+                                    <p style="margin-bottom: 20px;">Post date: {{ course.postDate|date:"d.m.Y" }}</p>
+                                    <p class="has-text-justified" style="margin-bottom: 20px;"><b>Description:</b> {{ course.courseDescription }}</p>
+                                    <a href="{{ course.get_absolute_url }}" class="button is-outlined is-link">Lessons</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% else %}
+<section class="section is-medium">
+    <div class="mt-6 mb-6 notification is-danger has-text-centered is-light" style="width: 50%; margin: 0 auto;">
+    <button class="delete"></button>
+    To work with the platform, please <a href="{% url 'logIn' %}">log in</a><br>
+    If you don't have an account, <a href="{% url 'signUp' %}">register</a> and log in
+</div>
+</section>
+{% endif %}
+{% endblock %}

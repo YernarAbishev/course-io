@@ -1,0 +1,77 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="shortcut icon" href="{% static 'img/icon.svg' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bulma.min.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.2.0/css/all.min.css" integrity="sha512-6c4nX2tn5KbzeBJo9Ywpa0Gkt+mzCzJBrE1RB6fmpcsoN+b/w/euwIMuQKNyUoU/nToKN3a8SgNOtPrbW12fug==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <nav class="navbar" role="navigation" aria-label="main navigation">
+        <div class="container">
+            <div class="navbar-brand">
+                <a class="navbar-item" href="/">
+                  <img src="{% static 'img/logo.svg' %}">
+                </a>
+
+                <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                  <span aria-hidden="true"></span>
+                  <span aria-hidden="true"></span>
+                  <span aria-hidden="true"></span>
+                </a>
+              </div>
+
+              <div id="navbarBasicExample" class="navbar-menu">
+                  <div class="navbar-end">
+                        <a class="navbar-item has-text-link" href="{% url 'home' %}">Home</a>
+                        <a class="navbar-item has-text-link" href="{% url 'courseList' %}">Courses</a>
+                      {% if user.is_authenticated %}
+                      <div class="navbar-item has-dropdown is-hoverable">
+                        <a class="navbar-link has-text-link"><i class="fas fa-user"></i>&nbsp;{{ user.username }}</a>
+                        <div class="navbar-dropdown">
+                          <div class="navbar-item">
+                              <a href="{% url 'logoutUser' %}" class="button is-danger is-small is-fullwidth">Logout</a>
+                          </div>
+                        </div>
+                      </div>
+                      {% else %}
+                      <div class="navbar-item">
+                            <div class="buttons">
+                              <a class="button is-link" href="{% url 'signUp' %}"><i class="fas fa-sign-in-alt"></i>&nbsp;Sign up</a>
+                              <a class="button is-link" href="{% url 'logIn' %}"><i class="fas fa-door-open"></i>&nbsp;Log in</a>
+                            </div>
+                      </div>
+                      {% endif %}
+                      {% if user.is_superuser %}
+                      <div class="navbar-item">
+                          <div class="buttons">
+                              <a class="button is-link" href="{% url 'admin:index' %}"><i class="fas fa-user-cog"></i>&nbsp;Admin panel</a>
+                          </div>
+                      </div>
+                      {% endif %}
+                  </div>
+              </div>
+        </div>
+    </nav>
+
+    {% block content %}
+    {% endblock %}
+
+    <footer class="footer has-background-dark">
+        <div class="content has-text-centered has-text-white">
+          &copy; course.io 2022. Developed by Yernar Abishev.
+        </div>
+    </footer>
+    <script src="{% static 'js/burger-button.js' %}"></script>
+    <script src="{% static 'js/videoPlayer.js' %}"></script>
+    <script src="{% static 'js/notification.js' %}"></script>
+</body>
+</html>
